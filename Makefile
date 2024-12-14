@@ -4,7 +4,8 @@ PREFIX = /usr/local
 
 install:
 	install -dm755 $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
-	install -m0644 asahilinux{.gpg,-trusted,-revoked} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+	# install -m0644 asahilinux{.gpg,-trusted,-revoked} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+	install -m0644 asahilinux{.gpg,-trusted} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/share/pacman/keyrings/asahilinux{.gpg,-trusted,-revoked}
