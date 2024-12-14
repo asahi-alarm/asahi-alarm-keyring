@@ -11,18 +11,18 @@ GPG="gpg --quiet --batch --pinentry-mode=loopback --no-tty --no-permission-warni
 pushd "$(dirname "$0")" >/dev/null
 
 $GPG --gen-key --passphrase='' <<EOF
-%echo Generating Asahi Linux Keyring keychain master key...
+%echo Generating Asahi Alarm Linux Keyring keychain master key...
 Key-Type: RSA
 Key-Length: 1024
 Key-Usage: sign
-Name-Real: Asahi Linux Keyring Keychain Master Key
-Name-Email: asahilinux-keyring@localhost
+Name-Real: Asahi Alarm Linux Keyring Keychain Master Key
+Name-Email: asahi-alarm-keyring@localhost
 Expire-Date: 0
 %commit
 %echo Done
 EOF
 
-rm -rf master packager packager-revoked asahilinux-trusted asahilinux-revoked
+rm -rf master packager packager-revoked asahi-alarm-trusted asahi-alarm-revoked
 mkdir master packager packager-revoked
 
 while read -ra data; do
@@ -33,9 +33,9 @@ while read -ra data; do
 		${GPG} --command-fd 0 --edit-key ${keyid}
 	${GPG} --yes --lsign-key ${keyid} &>/dev/null
 	${GPG} --armor --no-emit-version --export ${keyid} >> master/${username}.asc
-	echo "${keyid}:4:" >> asahilinux-trusted
+	echo "${keyid}:4:" >> asahi-alarm-trusted
 done < master-keyids
-${GPG} --import-ownertrust < asahilinux-trusted 2>/dev/null
+${GPG} --import-ownertrust < asahi-alarm-trusted 2>/dev/null
 
 #while read -ra data; do
 #	keyid="${data[0]}"
@@ -63,13 +63,13 @@ ${GPG} --import-ownertrust < asahilinux-trusted 2>/dev/null
 #		${GPG} --command-fd 0 --edit-key ${keyid}
 #	if ! ${GPG} --list-keys --with-colons ${keyid} 2>/dev/null | grep -q '^pub:f:'; then
 #		${GPG} --armor --no-emit-version --export ${keyid} >> packager-revoked/${username}.asc
-#		echo "${keyid}" >> asahilinux-revoked
+#		echo "${keyid}" >> asahi-alarm-revoked
 #	else
 #		echo "key is still fully trusted: ${keyid} ${username}"
 #	fi
 #done < packager-revoked-keyids
 
-#cat master/*.asc packager/*.asc packager-revoked/*.asc > asahilinux.gpg
-cat master/*.asc > asahilinux.gpg
+#cat master/*.asc packager/*.asc packager-revoked/*.asc > asahi-alarm.gpg
+cat master/*.asc > asahi-alarm.gpg
 
 popd >/dev/null
