@@ -4,8 +4,7 @@ PREFIX = /usr/local
 
 install:
 	install -dm755 $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
-	# install -m0644 asahi-alarm{.gpg,-trusted,-revoked} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
-	install -m0644 asahi-alarm{.gpg,-trusted} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+	install -m0644 asahi-alarm{.gpg,-trusted,-revoked} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/share/pacman/keyrings/asahi-alarm{.gpg,-trusted,-revoked}
